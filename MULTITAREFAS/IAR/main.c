@@ -41,13 +41,10 @@ int main(void)
 	/* Criacao das tarefas */
 	/* Parametros: ponteiro, nome, ponteiro da pilha, tamanho da pilha, prioridade da tarefa */
 	
-	CriaTarefa(tarefa_1, "Tarefa 1", PILHA_TAREFA_1, TAM_PILHA_1, 1);
+	CriaTarefa(tarefa_1, "Tarefa 1", PILHA_TAREFA_1, TAM_PILHA_1, 2);
 	
-	CriaTarefa(tarefa_2, "Tarefa 2", PILHA_TAREFA_2, TAM_PILHA_2, 2);
-	
-	CriaTarefa(tarefa_3, "Tarefa 3", PILHA_TAREFA_3, TAM_PILHA_3, 3);
+	CriaTarefa(tarefa_2, "Tarefa 2", PILHA_TAREFA_2, TAM_PILHA_2, 1);
 
-	CriaTarefa(tarefa_4, "Tarefa 4", PILHA_TAREFA_4, TAM_PILHA_4, 4);
 
 	/* Cria tarefa ociosa do sistema */
 	CriaTarefa(tarefa_ociosa,"Tarefa ociosa", PILHA_TAREFA_OCIOSA, TAM_PILHA_OCIOSA, 0);
@@ -66,42 +63,27 @@ int main(void)
 
 
 /* Tarefas de exemplo que usam funcoes para suspender/continuar as tarefas */
-void tarefa_1(void)
-{
-	volatile uint16_t a = 0;
-	for(;;)
-	{
-		a++;
-		TarefaContinua(2);
-	
+
+/*Modo cooperativo: Uma tarefa deve suspender sua execução para permitir que outra tarefa possa ser executada. O escalonador decide a prioridade*/
+
+void tarefa_1(void){
+	volatile uint16_t b = 1;
+	while(1){
+		b ^= 0
+
+		TarefaContinua(1);
+
+		b ^= 1;
 	}
 }
 
 void tarefa_2(void)
 {
-	volatile uint16_t b = 0;
-	for(;;)
-	{
-		b++;
-		TarefaContinua(3);
-}
-
-void tarefa_3(void)
-{
 	volatile uint16_t c = 0;
 	for(;;)
 	{
 		c++;
-		TarefaContinua(4);
+		TarefaEspera(100); /*Tarefa fica esperando por 100 marcas de tempo*/
 	}
 }
 
-void tarefa_4(void)
-{
-	volatile uint16_t d = 0;
-	for(;;)
-	{
-		d++;
-		TarefaSuspende(4);
-	}
-}
