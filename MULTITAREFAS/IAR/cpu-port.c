@@ -55,7 +55,7 @@ void ConfiguraMarcaTempo(void)
 		*(NVIC_SYSTICK_CTRL) = NVIC_SYSTICK_CLK | NVIC_SYSTICK_INT | NVIC_SYSTICK_ENABLE;  // Inicia
 }
 
-/* rotinas de interrupção necessárias */
+/* rotinas de interrupï¿½ï¿½o necessï¿½rias */
 __irq __attribute__ ((naked)) void SVC_Handler(void)
 {
 	/* Make PendSV and SysTick the lowest priority interrupts. */
@@ -90,7 +90,7 @@ __irq void SysTick_Handler(void)
 {	
 	 
 	 ExecutaMarcaDeTempo();    
-	 //TrocaContexto();   /* para o uso como sistema preemptivo */
+	 TrocaContexto();   /* para o uso como sistema preemptivo */
 }
 
 __irq void HardFault_Handler(void)

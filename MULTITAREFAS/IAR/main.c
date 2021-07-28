@@ -8,17 +8,13 @@
  */
 void tarefa_1(void);
 void tarefa_2(void);
-void tarefa_3(void);
-void tarefa_4(void);
+
 
 /*
  * Configuracao dos tamanhos das pilhas
  */
 #define TAM_PILHA_1		(TAM_MINIMO_PILHA + 24)
 #define TAM_PILHA_2		(TAM_MINIMO_PILHA + 24)
-#define TAM_PILHA_3		(TAM_MINIMO_PILHA + 24)
-#define TAM_PILHA_4		(TAM_MINIMO_PILHA + 24)
-
 #define TAM_PILHA_OCIOSA	(TAM_MINIMO_PILHA + 24)
 
 /*
@@ -26,8 +22,6 @@ void tarefa_4(void);
  */
 uint32_t PILHA_TAREFA_1[TAM_PILHA_1];
 uint32_t PILHA_TAREFA_2[TAM_PILHA_2];
-uint32_t PILHA_TAREFA_3[TAM_PILHA_3];
-uint32_t PILHA_TAREFA_4[TAM_PILHA_4];
 uint32_t PILHA_TAREFA_OCIOSA[TAM_PILHA_OCIOSA];
 
 
@@ -64,7 +58,10 @@ int main(void)
 
 /* Tarefas de exemplo que usam funcoes para suspender/continuar as tarefas */
 
-/*Modo cooperativo: Uma tarefa deve suspender sua execução para permitir que outra tarefa possa ser executada. O escalonador decide a prioridade*/
+/*Modo cooperativo: Uma tarefa só será executada depois que a com maior prioridade terminar sua execução*/
+/*Modo preemptivo: Podem ocorrer interrupções na execução de uma tarefa, para que outra possa ser executada*/
+
+
 
 void tarefa_1(void){
 	volatile uint16_t b = 1;
@@ -72,7 +69,7 @@ void tarefa_1(void){
 		b ^= 0
 
 		//TarefaContinua(1);
-		TarefaEspera(4);
+		TarefaEspera(100);
 		b ^= 1;
 	}
 }
@@ -83,7 +80,7 @@ void tarefa_2(void)
 	for(;;)
 	{
 		c++;
-		TarefaEspera(100); /*Tarefa fica esperando por 100 marcas de tempo*/
+		TarefaEspera(2); /*Tarefa fica esperando por 100 marcas de tempo*/
 	}
 }
 
