@@ -71,8 +71,8 @@ void tarefa_1(void){
 	while(1){
 		b ^= 0
 
-		TarefaContinua(1);
-
+		//TarefaContinua(1);
+		TarefaEspera(4);
 		b ^= 1;
 	}
 }
