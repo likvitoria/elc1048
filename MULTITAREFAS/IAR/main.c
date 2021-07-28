@@ -83,7 +83,7 @@ void tarefa_2(void)
 	for(;;)
 	{
 		b++;
-		TarefaContinua(2);
+		TarefaContinua(3);
 }
 
 void tarefa_3(void)
@@ -92,7 +92,7 @@ void tarefa_3(void)
 	for(;;)
 	{
 		c++;
-		TarefaContinua(2);
+		TarefaContinua(4);
 	}
 }
 
@@ -102,6 +102,6 @@ void tarefa_4(void)
 	for(;;)
 	{
 		d++;
-		TarefaSuspende(2);	
+		TarefaSuspende(4);
 	}
 }
