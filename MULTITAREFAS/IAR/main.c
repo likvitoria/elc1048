@@ -1,13 +1,14 @@
 #include <stdint.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 #include "multitarefas.h"
 
+#define TAM_BUFFER	10
 /*
  * Prototipos das tarefas
  */
-void tarefa_1(void);
-void tarefa_2(void);
+void produtor(void);
+void consumidor(void);
 
 
 /*
@@ -20,12 +21,15 @@ void tarefa_2(void);
 /*
  * Declaracao das pilhas das tarefas
  */
-uint32_t PILHA_TAREFA_1[TAM_PILHA_1];
-uint32_t PILHA_TAREFA_2[TAM_PILHA_2];
+uint32_t PILHA_PRODUTOR[TAM_PILHA_1];
+uint32_t PILHA_CONSUMIDOR[TAM_PILHA_2];
 uint32_t PILHA_TAREFA_OCIOSA[TAM_PILHA_OCIOSA];
 
 
-
+semaforo_t cheio = {0, NULL};
+semaforo_t vazio = {TAM_BUFFER, NULL};
+int buffer[TAM_BUFFER];
+int i = 0, j =  0, valor;
 /*
  * Funcao principal de entrada do sistema
  */
@@ -35,9 +39,9 @@ int main(void)
 	/* Criacao das tarefas */
 	/* Parametros: ponteiro, nome, ponteiro da pilha, tamanho da pilha, prioridade da tarefa */
 	
-	CriaTarefa(tarefa_1, "Tarefa 1", PILHA_TAREFA_1, TAM_PILHA_1, 2);
+	CriaTarefa(produtor, "Produtor", PILHA_PRODUTOR, TAM_PILHA_1, 1);
 	
-	CriaTarefa(tarefa_2, "Tarefa 2", PILHA_TAREFA_2, TAM_PILHA_2, 1);
+	CriaTarefa(consumidor, "Consumidor", PILHA_CONSUMIDOR, TAM_PILHA_2, 2);
 
 
 	/* Cria tarefa ociosa do sistema */
@@ -56,31 +60,30 @@ int main(void)
 }
 
 
+
 /* Tarefas de exemplo que usam funcoes para suspender/continuar as tarefas */
 
-/*Modo cooperativo: Uma tarefa só será executada depois que a com maior prioridade terminar sua execução*/
-/*Modo preemptivo: Podem ocorrer interrupções na execução de uma tarefa, para que outra possa ser executada*/
+void produtor(void){
 
-
-
-void tarefa_1(void){
-	volatile uint16_t b = 1;
 	while(1){
-		b ^= 0
+		SemaforoAguarda(&vazio);
+		buffer[i]=rand()%20;	//produz();
 
-		//TarefaContinua(1);
-		TarefaEspera(100);
-		b ^= 1;
+		i = (i+1)%TAM_BUFFER;
+		SemaforoLibera(&cheio);
+
 	}
 }
 
-void tarefa_2(void)
-{
-	volatile uint16_t c = 0;
-	for(;;)
-	{
-		c++;
-		TarefaEspera(2); /*Tarefa fica esperando por 100 marcas de tempo*/
+void consumidor(void){
+
+	while(1){
+		SemaforoAguarda(&cheio);
+		valor = buffer[j]; //consome
+
+		j = (j+1)%TAM_BUFFER;
+		SemaforoLibera(&vazio);
+
 	}
 }
 
